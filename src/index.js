@@ -9,7 +9,8 @@ function App() {
   const [usernameError, setUsernameError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState(null);
-  const [everythingValid, setEverythingValid] = useState(false);
+
+  const everythingValid = !usernameError && !passwordError && !confirmPasswordError;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -26,8 +27,8 @@ function App() {
   }
 
   function validateUsername(username) {
-    const error = validator.validateUsername(username);
-    setUsernameError(error);
+    const [isValid, errorMessage] = validator.validateUsername(username);
+    if (!isValid) setUsernameError(errorMessage);
   }
 
   function handlePasswordChange(event) {
@@ -40,13 +41,16 @@ function App() {
   }
 
   function validatePassword(password) {
-    const error = validator.validatePassword(password);
-    setPasswordError(error);
+    const [isValid, errorMessage] = validator.validatePassword(password);
+    if (!isValid) setPasswordError(errorMessage);
   }
 
   function handleConfirmPasswordBlur(event) {
-    const error = validator.validatePasswordsMatch(password, event.target.value);
-    setConfirmPasswordError(error);
+    const [isValid, errorMessage] = validator.validatePasswordsMatch(
+      password,
+      event.target.value
+    );
+    if (!isValid) setConfirmPasswordError(errorMessage);
   }
 
   return (
