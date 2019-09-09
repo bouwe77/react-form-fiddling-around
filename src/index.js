@@ -10,8 +10,6 @@ function App() {
   const [passwordError, setPasswordError] = useState(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState(null);
 
-  const everythingValid = !usernameError && !passwordError && !confirmPasswordError;
-
   function handleSubmit(event) {
     event.preventDefault();
     console.log(username, password);
