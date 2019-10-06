@@ -5,6 +5,14 @@ import validator from "./validation";
 import { VALID, INVALID, UNDETERMINED } from "./validationStatuses";
 
 function App() {
+  function fakeSendingToServer(name, email, message) {
+    console.log("Send to server:", [name, email, message]);
+  }
+
+  return <ContactForm sendToServer={fakeSendingToServer} />;
+}
+
+function ContactForm({ sendToServer }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -18,7 +26,7 @@ function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("Send to server:", [name, email, message]);
+    sendToServer(name, email, message);
   }
 
   function handleChange(event) {

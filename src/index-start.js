@@ -1,12 +1,16 @@
-// ====================================================
-// Dit is de startsituatie om mee te beginnen
-// ====================================================
-
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles.css";
 
 function App() {
+  function fakeSendingToServer(name, email, message) {
+    console.log("Send to server:", [name, email, message]);
+  }
+
+  return <ContactForm sendToServer={fakeSendingToServer} />;
+}
+
+function ContactForm({ sendToServer }) {
   return (
     <>
       <h1>Contact us</h1>
