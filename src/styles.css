@@ -1,6 +1,5 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 button {
@@ -11,11 +10,13 @@ button {
   margin: 0;
   padding: 0;
   margin-top: 20px;
+  border: 1px solid darkgray;
 }
 
 input {
   height: 40px;
   font-size: 20px;
+  border: 1px solid darkgray;
 }
 
 label {
@@ -29,4 +30,5 @@ textarea {
   width: 300px;
   font-size: 20px;
   resize: none;
+  border: 1px solid darkgray;
 }
