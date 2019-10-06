@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./styles.css";
 import validator from "./validation";
+import { VALID, INVALID, UNDETERMINED } from "./validationStatuses";
 
 function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const [nameValid, setNameValid] = useState(null);
-  const [emailValid, setEmailValid] = useState(null);
-  const [messageValid, setMessageValid] = useState(null);
+  const [nameValid, setNameValid] = useState(UNDETERMINED);
+  const [emailValid, setEmailValid] = useState(UNDETERMINED);
+  const [messageValid, setMessageValid] = useState(UNDETERMINED);
 
-  const submitAllowed = nameValid == true && emailValid == true && messageValid == true;
+  const submitAllowed = nameValid === VALID && emailValid === VALID && messageValid === VALID;
+  console.log(nameValid, emailValid, messageValid, submitAllowed);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -22,12 +24,15 @@ function App() {
   function handleChange(event) {
     switch (event.target.name) {
       case "name":
+        setNameValid(UNDETERMINED);
         setName(event.target.value);
         break;
       case "email":
+        setEmailValid(UNDETERMINED);
         setEmail(event.target.value);
         break;
       case "message":
+        setMessageValid(UNDETERMINED);
         setMessage(event.target.value);
         break;
       default:
@@ -38,13 +43,13 @@ function App() {
   function handleBlur(event) {
     switch (event.target.name) {
       case "name":
-        setNameValid(!validator.validateName(name));
+        setNameValid(validator.validateName(name) ? VALID : INVALID);
         break;
       case "email":
-        setEmailValid(!validator.validateEmail(email));
+        setEmailValid(validator.validateEmail(email) ? VALID : INVALID);
         break;
       case "message":
-        setMessageValid(!validator.validateMessage(message));
+        setMessageValid(validator.validateMessage(message) ? VALID : INVALID);
         break;
       default:
         break;
@@ -64,7 +69,7 @@ function App() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {nameValid == true ? "Please enter your name" : null}
+          {nameValid === INVALID ? "Please enter your name" : null}
         </div>
         <div>
           <label>Email address</label>
@@ -75,7 +80,7 @@ function App() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {emailValid == true ? "Please enter a valid email address" : null}
+          {emailValid === INVALID ? "Please enter a valid email address" : null}
         </div>
         <div>
           <label>Message</label>
@@ -86,7 +91,7 @@ function App() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {messageValid == true ? "Please enter a message" : null}
+          {messageValid === INVALID ? "Please enter a message" : null}
         </div>
         <div>
           <button type="submit" disabled={!submitAllowed}>
