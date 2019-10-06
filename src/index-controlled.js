@@ -8,9 +8,11 @@ function App() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const [nameError, setNameError] = useState(null);
-  const [emailError, setEmailError] = useState(null);
-  const [messageError, setMessageError] = useState(null);
+  const [nameValid, setNameValid] = useState(null);
+  const [emailValid, setEmailValid] = useState(null);
+  const [messageValid, setMessageValid] = useState(null);
+
+  const submitAllowed = nameValid == true && emailValid == true && messageValid == true;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -36,22 +38,13 @@ function App() {
   function handleBlur(event) {
     switch (event.target.name) {
       case "name":
-        if (!validator.validateName(name)) {
-          setNameError("Name invalid");
-          return;
-        } else setNameError(null);
+        setNameValid(!validator.validateName(name));
         break;
       case "email":
-        if (!validator.validateEmail(email)) {
-          setEmailError("Email invalid");
-          return;
-        } else setEmailError(null);
+        setEmailValid(!validator.validateEmail(email));
         break;
       case "message":
-        if (!validator.validateMessage(message)) {
-          setMessageError("Message invalid");
-          return;
-        } else setMessageError(null);
+        setMessageValid(!validator.validateMessage(message));
         break;
       default:
         break;
@@ -71,7 +64,7 @@ function App() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {nameError}
+          {nameValid == true ? "Please enter your name" : null}
         </div>
         <div>
           <label>Email address</label>
@@ -82,7 +75,7 @@ function App() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {emailError}
+          {emailValid == true ? "Please enter a valid email address" : null}
         </div>
         <div>
           <label>Message</label>
@@ -93,10 +86,12 @@ function App() {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {messageError}
+          {messageValid == true ? "Please enter a message" : null}
         </div>
         <div>
-          <button type="submit">OK</button>
+          <button type="submit" disabled={!submitAllowed}>
+            OK
+          </button>
         </div>
       </form>
     </>
