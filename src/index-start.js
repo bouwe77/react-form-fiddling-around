@@ -13,7 +13,6 @@ function App() {
 function ContactForm({ sendToServer }) {
   return (
     <>
-      <h1>Contact us</h1>
       <form>
         <div>
           <label>Name</label>

@@ -53,7 +53,6 @@ function ContactForm({ sendToServer }) {
 
   return (
     <>
-      <h1>Contact us</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
