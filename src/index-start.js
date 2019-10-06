@@ -13,15 +13,15 @@ function App() {
       <form>
         <div>
           <label>Name</label>
-          <input type="text" />
+          <input type="text" name="name" />
         </div>
         <div>
           <label>Email address</label>
-          <input type="text" />
+          <input type="text" name="email" />
         </div>
         <div>
           <label>Message</label>
-          <textarea type="text" />
+          <textarea type="text" name="message" />
         </div>
         <div>
           <button type="submit">OK</button>
