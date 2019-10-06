@@ -1,112 +1,67 @@
-// import React, { useState } from "react";
-// import ReactDOM from "react-dom";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 
-// import validator from "./validation";
+function App() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [robot, setRobot] = useState(true);
+  const [isValid, setIsValid] = useState(false);
 
-// function App() {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [password2, setPassword2] = useState("");
-//   const [usernameValidation, setUsernameValidation] = useState({});
-//   const [passwordValidation, setPasswordValidation] = useState({});
-//   const [password2Validation, setPassword2Validation] = useState({});
+  function changeUsername(event) {
+    setUsername(event.target.value);
+    setIsValid(validate(event.target.value, password, robot));
+  }
 
-//   console.log(password2Validation);
+  function changePassword(event) {
+    setPassword(event.target.value);
+    setIsValid(validate(username, event.target.value, robot));
+  }
 
-//   const everythingValid =
-//     usernameValidation.isValid && passwordValidation.isValid && password2Validation.isValid;
+  function changeRobot(event) {
+    const newRobotValue = !event.target.checked;
+    setRobot(newRobotValue);
+    setIsValid(validate(username, password, newRobotValue));
+  }
 
-//   function handleSubmit(event) {
-//     event.preventDefault();
-//     console.log(username, password);
-//   }
+  function submitForm(event) {
+    event.preventDefault();
+    console.log(username, password, robot);
+  }
 
-//   function handleUsernameChange(event) {
-//     setUsername(event.target.value);
-//     const isValid = validator.validateUsername(event.target.value);
-//     setUsernameValidation({ isValid, errorMessage: null });
-//   }
+  return (
+    <>
+      <h1>Sign In</h1>
+      <form onSubmit={submitForm}>
+        <div>
+          <label>Username</label>{" "}
+          <input type="text" value={username} onChange={changeUsername} />
+        </div>
+        <div>
+          <label>Password</label>{" "}
+          <input type="password" value={password} onChange={changePassword} />
+        </div>
+        <div>
+          <input type="checkbox" checked={!robot} onChange={changeRobot} />
+          <label>I am not a robot</label>
+        </div>
+        <div>
+          <button type="submit" disabled={!isValid}>
+            Submit
+          </button>
+        </div>
+      </form>
+    </>
+  );
+}
 
-//   function handlePasswordChange(event) {
-//     setPassword(event.target.value);
-//     const isValid = validator.validatePassword(event.target.value);
-//     setPasswordValidation({ isValid, errorMessage: null });
-//     validatePasswordsAreEqual(event.target.value, password2);
-//   }
+function validate(username, password, robot) {
+  const usernameValid =
+    username.length >= 3 && username.length <= 50 && /[A-Za-z0-9]/.test(username);
+  const passwordValid = password.length > 0 && password.length <= 50;
+  const robotValid = !robot;
 
-//   function handlePassword2Change(event) {
-//     setPassword2(event.target.value);
-//     validatePasswordsAreEqual(password, event.target.value);
-//   }
+  return usernameValid && passwordValid && robotValid;
+}
 
-//   function validatePasswordsAreEqual(password1, password2) {
-//     const isValid = validator.validatePasswordsMatch(password1, password2);
-//     setPassword2Validation({ isValid, errorMessage: null });
-//   }
-
-//   function handleUsernameBlur(event) {
-//     if (!usernameValidation.isValid)
-//       setUsernameValidation({ ...usernameValidation, errorMessage: "Username nie goe" });
-//   }
-
-//   function handlePasswordBlur(event) {
-//     if (!passwordValidation.isValid)
-//       setPasswordValidation({ ...passwordValidation, errorMessage: "Password nie goe" });
-//   }
-
-//   function handlePassword2Blur(event) {
-//     if (!password2Validation.isValid)
-//       setPassword2Validation({ ...password2Validation, errorMessage: "Password2 nie goe" });
-//   }
-
-//   return (
-//     <>
-//       <h1>Register</h1>
-//       <form onSubmit={handleSubmit}>
-//         <label>
-//           Username
-//           <input
-//             type="text"
-//             name="username"
-//             value={username}
-//             onChange={handleUsernameChange}
-//             onBlur={handleUsernameBlur}
-//           />
-//           {usernameValidation.errorMessage}
-//         </label>
-//         <br />
-//         <label>
-//           Password
-//           <input
-//             type="text"
-//             name="password"
-//             value={password}
-//             onChange={handlePasswordChange}
-//             onBlur={handlePasswordBlur}
-//           />
-//           {passwordValidation.errorMessage}
-//         </label>
-//         <br />
-//         <label>
-//           Confirm password
-//           <input
-//             type="text"
-//             name="password2"
-//             value={password2}
-//             onChange={handlePassword2Change}
-//             onBlur={handlePassword2Blur}
-//           />
-//           {password2Validation.errorMessage}
-//         </label>
-//         <div>
-//           <button type="submit" disabled={!everythingValid}>
-//             Submit
-//           </button>
-//         </div>
-//       </form>
-//     </>
-//   );
-// }
-
-// const rootElement = document.getElementById("root");
-// ReactDOM.render(<App />, rootElement);
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
